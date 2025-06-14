@@ -29,7 +29,7 @@ if st.button("🚀 Generate Cinematic Reel"):
     else:
         st.info("⚙️ Generating... This may take up to 1 minute depending on content length.")
 
-        if uploaded_audio_files:
+                if uploaded_audio_files:
             merged_audio = AudioSegment.empty()
 
             for idx, audio_file in enumerate(uploaded_audio_files):
@@ -47,11 +47,10 @@ if st.button("🚀 Generate Cinematic Reel"):
                 try:
                     os.remove(f"temp_audio_{idx}.mp3")
                 except Exception as e:
-                 print(f"[WARN] Could not delete temp_audio_{idx}.mp3: {e}")
-    
-         else:
-             generate_voiceover(script_text)
+                    print(f"[WARN] Could not delete temp_audio_{idx}.mp3: {e}")
 
+        else:
+            generate_voiceover(script_text)
         fetch_video_clips(keyword)
         create_shadow_reel()
         st.success("✅ Your video is ready!")
