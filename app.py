@@ -34,7 +34,7 @@ if st.button("🚀 Generate Cinematic Reel"):
 
         def create_shadow_reel(script_text=None):
             if script_text is None:
-            raise ValueError("Script text is required.")
+                raise ValueError("Script text is required.")
             script_lines = script_text.splitlines()
 
         st.success("✅ Your video is ready!")
