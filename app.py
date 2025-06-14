@@ -32,7 +32,9 @@ if st.button("🚀 Generate Cinematic Reel"):
 
         fetch_video_clips(keyword)
 
-        create_shadow_reel(script_text)
+        def create_shadow_reel(script_text):
+            script_lines = script_text.splitlines()
+            clips = []
 
         st.success("✅ Your video is ready!")
         st.video("shadow_reel.mp4")
