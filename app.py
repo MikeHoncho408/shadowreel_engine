@@ -7,10 +7,10 @@ st.set_page_config(layout="centered", page_title="ShadowForge AI", page_icon="�
 
 st.title("🎬 ShadowForge AI")
 st.markdown(
-    '''
+    """
     Welcome to **ShadowForge AI**, your cinematic storytelling machine.  
     Drop your script. Pick your vibe. Get your revolution on tape.
-    '''
+    """
 )
 
 script_text = st.text_area("✍️ Enter your video script below:", height=200)
@@ -37,14 +37,13 @@ if st.button("🚀 Generate Cinematic Reel"):
                 filename = f"temp_audio_{idx}.mp3"
                 with open(filename, "wb") as f:
                     f.write(audio_file.read())
-
                 segment = AudioSegment.from_mp3(filename)
                 merged_audio += segment
 
             merged_audio.export(merged_audio_path, format="mp3")
             upload_custom_audio(merged_audio_path)
 
-            # Clean up temp audio files
+            # Clean up temp files
             for idx in range(len(uploaded_audio_files)):
                 try:
                     os.remove(f"temp_audio_{idx}.mp3")
@@ -57,4 +56,4 @@ if st.button("🚀 Generate Cinematic Reel"):
         create_shadow_reel()
         st.success("✅ Your video is ready!")
         st.video("shadow_reel.mp4")
-        st.markdown("[Download Video](shadow_reel.mp4)", unsafe_allow_html=True)
+        st.markdown("[📥 Download Video](shadow_reel.mp4)", unsafe_allow_html=True)
