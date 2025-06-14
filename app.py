@@ -1,6 +1,6 @@
 import streamlit as st
 from shadowreel_ai_core import generate_voiceover, fetch_video_clips, create_shadow_reel, upload_custom_audio
-
+from pydub import AudioSegment
 st.set_page_config(layout="centered", page_title="ShadowForge AI", page_icon="🎬")
 
 st.title("🎬 ShadowForge AI")
@@ -11,7 +11,7 @@ st.markdown(
     """
 )
 
-from pydub import AudioSegment  # move this to the top
+
 
 script_text = st.text_area("✍️ Enter your video script below:", height=200)
 keyword = st.text_input("🔍 B-Roll Search Keyword:", value="surveillance")
