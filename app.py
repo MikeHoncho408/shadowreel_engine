@@ -1,6 +1,6 @@
 import streamlit as st
 from shadowreel_ai_core import generate_voiceover, fetch_video_clips, create_shadow_reel, upload_custom_audio
-from pydub import AudioSegment
+
 st.set_page_config(layout="centered", page_title="ShadowForge AI", page_icon="🎬")
 
 st.title("🎬 ShadowForge AI")
@@ -15,20 +15,21 @@ st.markdown(
 
 script_text = st.text_area("✍️ Enter your video script below:", height=200)
 keyword = st.text_input("🔍 B-Roll Search Keyword:", value="surveillance")
+script_text = st.text_area("✍️ Enter your video script below:", height=200)
+keyword = st.text_input("🔍 B-Roll Search Keyword:", value="surveillance")
+
+from pydub import AudioSegment  # Make sure this is already at the top of the file
 
 uploaded_audio_files = st.file_uploader(
-    "🎤 Upload one or more .mp3 voiceover files (optional)", 
+    "🎤 Upload one or more .mp3 voiceover files", 
     type=["mp3"], 
     accept_multiple_files=True
 )
 
-if st.button("🚀 Generate Cinematic Reel"):
-    if not script_text.strip():
-        st.warning("Please enter a script first.")
-    else:
-        if uploaded_audio_files:
-            merged_audio = AudioSegment.empty()
+merged_audio_path = "voiceover_merged.mp3"
 
+if st.button("🚀 Generate Cinematic Reel"):
+    ...
             for idx, audio_file in enumerate(uploaded_audio_files):
                 filename = f"temp_audio_{idx}.mp3"
                 with open(filename, "wb") as f:
