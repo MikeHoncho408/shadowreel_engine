@@ -37,40 +37,51 @@ def fetch_video_clips(keyword, limit=3):
         else:
             print(f"[WARNING] Skipped invalid clip from: {url}")
 
+from moviepy.editor import concatenate_videoclips, VideoFileClip, AudioFileClip, TextClip, CompositeVideoClip
+
 def create_shadow_reel():
-    video_files = [f"clips/{file}" for file in os.listdir("clips") if file.endswith(".mp4")]
-
+    script_lines = open("script.txt", "r").readlines()
     clips = []
-    for file in video_files:
-        try:
-            clip = VideoFileClip(file).subclip(0, 5)
-            clips.append(clip)
-        except Exception as e:
-            print(f"[ERROR] Skipping file {file}: {e}")
 
-    if not clips:
-        print("[ERROR] No valid video clips available to create a reel.")
-        return
+    # Get the duration of the voiceover
+    audio = AudioFileClip("voiceover.mp3")
+    audio_duration = audio.duration
 
-    final_video = concatenate_videoclips(clips, method="compose")
+    # Calculate duration per caption (split evenly)
+    per_line_duration = audio_duration / max(1, len(script_lines))
 
-    if os.path.exists(VOICEOVER_FILE):
-        audio = AudioFileClip(VOICEOVER_FILE)
-        final_video = final_video.set_audio(audio)
+    # Build text caption clips
+    caption_clips = []
+    for i, line in enumerate(script_lines):
+        txt = TextClip(line.strip(), fontsize=42, color='white', font='Arial-Bold')
+        txt = txt.set_position('center').set_duration(per_line_duration).set_start(i * per_line_duration)
+        caption_clips.append(txt)
 
-    if os.path.exists(SCRIPT_TEXT_FILE):
-        with open(SCRIPT_TEXT_FILE, "r") as f:
-            script_lines = f.readlines()
+    # Load your video clips
+    video_files = ["clip1.mp4", "clip2.mp4", "clip3.mp4"]  # Replace with real paths
+    video_clips = [
+        VideoFileClip(f).subclip(0, min(per_line_duration, VideoFileClip(f).duration))
+        for f in video_files
+    ]
 
-        caption_clips = []
-        total_duration = final_video.duration / max(1, len(script_lines))
+    # Match video clips to the caption count
+    while len(video_clips) < len(script_lines):
+        video_clips += video_clips[:len(script_lines) - len(video_clips)]
+    video_clips = video_clips[:len(script_lines)]
 
-        for i, line in enumerate(script_lines):
-            txt_clip = TextClip(line.strip(), fontsize=40, color='white', font='Arial-Bold')
-            txt_clip = txt_clip.set_position('center').set_duration(total_duration).set_start(i * total_duration)
-            caption_clips.append(txt_clip)
+    # Stack video + captions
+    composited = [
+        CompositeVideoClip([v.set_duration(per_line_duration), c])
+        for v, c in zip(video_clips, caption_clips)
+    ]
 
-        final_video = CompositeVideoClip([final_video, *caption_clips])
+    # Concatenate scenes and add audio
+    final_video = concatenate_videoclips(composited, method="compose").set_audio(audio)
 
-    final_video.write_videofile(OUTPUT_VIDEO, fps=24)
-    print(f"[INFO] Final video saved as {OUTPUT_VIDEO}")
+    # Add a small buffer to ensure last line finishes
+    final_duration = final_video.duration
+    final_video = final_video.set_duration(final_duration + 1.5)
+
+    # Export final video
+    final_video.write_videofile("shadow_reel.mp4", codec="libx264", audio_codec="aac")
+    print("[INFO] Final video saved as shadow_reel.mp4")
