@@ -42,7 +42,14 @@ if st.button("🚀 Generate Cinematic Reel"):
 
             merged_audio.export(merged_audio_path, format="mp3")
             upload_custom_audio(merged_audio_path)
-        else:
+
+            for idx in range(len(uploaded_audio_files)):
+                try:
+                    os.remove(f"temp_audio_{idx}.mp3")
+                except Exception as e:
+                 print(f"[WARN] Could not delete temp_audio_{idx}.mp3: {e}")
+    
+       else:
             generate_voiceover(script_text)
 
         fetch_video_clips(keyword)
