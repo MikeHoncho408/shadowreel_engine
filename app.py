@@ -31,7 +31,7 @@ if st.button("\u2699\ufe0f Generate ShadowReel"):
 
         # Always fetch clips & generate video using script
         fetch_video_clips(keyword)
-        create_shadow_reel(script_text)
+        create_shadow_reel()
 
         # Show video if available
         if os.path.exists("shadow_reel.mp4"):
