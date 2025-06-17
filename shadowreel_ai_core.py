@@ -1,4 +1,5 @@
 import os
+os.environ["IMAGEMAGICK_BINARY"] = "/opt/homebrew/bin/magick"
 import requests
 from moviepy.editor import concatenate_videoclips, VideoFileClip, AudioFileClip, TextClip, CompositeVideoClip
 
