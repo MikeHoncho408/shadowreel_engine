@@ -39,8 +39,9 @@ def fetch_video_clips(keyword, limit=3):
 
 from moviepy.editor import concatenate_videoclips, VideoFileClip, AudioFileClip, TextClip, CompositeVideoClip
 
-def create_shadow_reel():
-    script_lines = open("voiceover.txt", "r").readlines()
+def def create_shadow_reel(script_text):
+    script_lines = script_text.splitlines()
+    ...
     clips = []
 
     # Get the duration of the voiceover
