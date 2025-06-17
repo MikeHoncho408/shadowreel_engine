@@ -42,7 +42,6 @@ from moviepy.editor import concatenate_videoclips, VideoFileClip, AudioFileClip,
 
 def create_shadow_reel(script_text):
     script_lines = script_text.splitlines()
-    ...
     clips = []
 
     # Get the duration of the voiceover
