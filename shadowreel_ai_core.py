@@ -1,5 +1,8 @@
 import os
+
+# Set required binary paths
 os.environ["IMAGEMAGICK_BINARY"] = "/opt/homebrew/bin/magick"
+os.environ["FFMPEG_BINARY"] = "/opt/homebrew/bin/ffmpeg"
 
 import requests
 from moviepy.editor import (
