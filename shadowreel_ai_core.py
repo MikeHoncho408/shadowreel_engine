@@ -40,7 +40,7 @@ def fetch_video_clips(keyword, limit=3):
 
 from moviepy.editor import concatenate_videoclips, VideoFileClip, AudioFileClip, TextClip, CompositeVideoClip
 
-def def create_shadow_reel(script_text):
+def create_shadow_reel(script_text):
     script_lines = script_text.splitlines()
     ...
     clips = []
